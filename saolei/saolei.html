@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		html,body{
+			width:100%;
+			height: 100%;
+			margin:0px;
+			padding:0px;
+		}
+		#s1{
+			width:230px;
+			height:230px;
+			margin:50px auto;
+		}
+
+		#s1 span{
+			display:inline-block;
+			width:19px;
+			height:19px;
+			background-color:lightskyblue;
+			border:1px solid #ccc;
+			margin:1px;
+			float:left;
+			cursor: pointer;
+			text-align: center;
+			line-height:19px;
+			font-size:12px;
+			color:white;
+		}
+		#s1 span.active{
+			background:darkred;
+			border:1px solid aliceblue;
+		}
+		#s1 span.pass{
+			background:#CCCCCC;
+			border:1px solid aliceblue;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="s1"></div>
+	</body>	
+		<script>
+			var S1=document.getElementById('s1');
+			//随机
+				var arr1=[];
+					for (var i = 0; i < 10; i++) {
+						var arr2=[];
+						arr1.push(arr2);
+						for (var j = 0; j < 10; j++) {
+							//放入0和1
+							arr2.push(Math.round(Math.random()*0.556));
+						}						
+					}
+					
+			//通过循环把这个二维数组里所有的雷，它的行和列的索引都找出来，封装
+			function drawmap() {
+				var html='';
+				for (var i = 0; i < arr1.length; i++) {
+					for (var j = 0; j < arr1[i].length; j++) {
+						html+="<span onclick='ClickBlock("+i+","+j+",this)'></span>";
+					}
+					html+="<br>";
+				}
+				S1.innerHTML=html;
+			  }
+			    drawmap();
+				function ClickBlock(i,j,block){
+						if(arr1[i][j]===1){
+							block.className="active";
+							block.innerHTML='炸';
+							alert('撞雷了');
+							drawmap();
+						}
+						else {
+							var count=0;
+							for (var x = i-1; x <=i+1; x++) {
+								for (var y = j-1; y <=j+1; y++) {
+									if(x<0||y<0) continue;
+									if(arr1[x]&&arr1[x][y]&&arr1[x][y]===1){
+										count++;
+									}
+								}
+							}
+							block.className="pass";
+							block.innerHTML=count?count:'';
+						}
+				}
+		</script>
+</html>
